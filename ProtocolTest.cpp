@@ -1,8 +1,8 @@
 #include <cppunit/extensions/HelperMacros.h>
-//#include "Msnp8.h"
 #include "ProtocolTest.h"
 #include "Msnp.cpp"
 #include "Notification.cpp"
+#include "Msnp8.cpp"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ProtocolTest );
 
@@ -10,17 +10,16 @@ using namespace std;
 
 void ProtocolTest::receive(string msg){
 	this->msn->execute(msg);
-	//this->received = msg;
 }
 
 void ProtocolTest::send(string msg){
-	CPPUNIT_ASSERT( msg == this->mockConnection->sended);
+	CPPUNIT_ASSERT_EQUAL(msg, this->mockConnection->sended);
 }
 
 void ProtocolTest::TestChallenger(void) {
 	string chl = "29409134351025259292";
 	string digest = this->msn->challenger(chl);
-	CPPUNIT_ASSERT( chl == digest);
+	CPPUNIT_ASSERT_EQUAL(chl, digest);
 }
 
 
@@ -39,8 +38,12 @@ void ProtocolTest::TestSession(void) {
 		//Redirect
 		this->receive("XFR 3 NS 207.46.106.118:1863 0 207.46.104.20:1863\r\n");
 		this->send("VER 4 MSNP8 CVR0\r\n");
-		//this->assertEquals("207.46.106.118",$this->_mockConnection->host, "Invalid host");
-		//this->assertEquals("1863",$this->_mockConnection->port, "Invalid port");
+		//TODO: CPPUNIT_ASSERT_EQUAL_MESSAGE("Invalid host", "207.46.106.118",this->mockConnection->host);
+		//cout << this->mockConnection->host;
+
+
+		//CPPUNIT_ASSERT_EQUAL("207.46.106.118",this->mockConnection->host);
+//		this->assertEquals("1863",this->mockConnection->port, "Invalid port");
 
 		this->receive("VER 4 MSNP8 CVR0\r\n");
 		this->send("CVR 5 0x0409 win 4.10 i386 MSNMSGR 6.0.0602 MSMSGS dvader@empire.com\r\n");
@@ -48,7 +51,6 @@ void ProtocolTest::TestSession(void) {
 		this->receive("CVR 5 6.0.0602 6.0.0602 1.0.0000 http://download.microsoft.com/download/8/a/4/8a42bcae-f533-4468-b871-d2bc8dd32e9e/SETUP9x.EXE http://messenger.msn.com\r\n");
 		this->send("USR 6 TWN I dvader@empire.com\r\n");
 
-		
 		this->receive("USR 6 TWN S lc=1033,id=507,tw=40,fs=1,ru=http%3A%2F%2Fmessenger%2Emsn%2Ecom,ct=1062764229,kpp=1,kv=5,ver=2.1.0173.1,tpf=43f8a4c8ed940c04e3740be46c4d1619\r\n");
 		this->send("USR 7 TWN S t=53*1hAu8ADuD3TEwdXoOMi08sD*2!cMrntTwVMTjoB3p6stWTqzbkKZPVQzA5NOt19SLI60PY!b8K4YhC!Ooo5ug$$&p=5eKBBC!yBH6ex5mftp!a9DrSb0B3hU8aqAWpaPn07iCGBw5akemiWSd7t2ot!okPvIR!Wqk!MKvi1IMpxfhkao9wpxlMWYAZ!DqRfACmyQGG112Bp9xrk04!BVBUa9*H9mJLoWw39m63YQRE1yHnYNv08nyz43D3OnMcaCoeSaEHVM7LpR*LWDme29qq2X3j8N\r\n");
 

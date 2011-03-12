@@ -6,6 +6,7 @@
 #include <string>
 #include "Msnp.h"
 #include "Notification.h"
+#include "Msnp8.h"
 #include "MockConnection.cpp"
 
 class ProtocolTest : public CppUnit::TestFixture {
@@ -17,7 +18,7 @@ class ProtocolTest : public CppUnit::TestFixture {
 	private:
 
 	//Msnp * msn;
-	Notification * msn;
+	Msnp8 * msn;
 	MockConnection * mockConnection;
 	
 	void receive(string msg);
@@ -29,8 +30,7 @@ class ProtocolTest : public CppUnit::TestFixture {
 		//this->mockClient = new MockClient();
 		//this->mockAuth = new MockAuthentication;
 		this->mockConnection = new MockConnection();
-		//this->msn = new Msnp();
-		this->msn = new Notification();
+		this->msn = new Msnp8();
 		//this->msn->setAuthenticationHandle(this->mockAuth);
 		this->msn->setConnectionHandle(this->mockConnection);
 		//this->msn-addConnectionListener(this->mockClient);
