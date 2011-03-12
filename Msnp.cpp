@@ -4,7 +4,7 @@
 using namespace std;
 
 Msnp::Msnp(){
-	this->EL = "/r/n";
+	this->EL = "\r\n";
 	this->_trid = 1;
 //	private $_commandListener = null;
 
@@ -16,7 +16,7 @@ void Msnp::setConnectionHandle(ConnectionHandle *connectionHandle) {
 
 void Msnp::send(string cmd){
 	this->connectionHandle->send(cmd);
-	this->onCommandSended(cmd);
+	///this->onCommandSended(cmd); //TODO:
 	this->_trid++;
 }
 
