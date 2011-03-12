@@ -8,10 +8,16 @@ using namespace std;
 Notification::Notification(){
 }
 
-void Notification::login(string username, string password){
-	
+void Notification::connect(string host, int port){
 }
 
+void Notification::login(string username, string password){
+	this->username = username;
+	this->send(this->ver());
+}
 
+string Notification::getUsername(){
+	return this->username;
+}
 
 #endif

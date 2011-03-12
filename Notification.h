@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstdio>
 #include "Msnp.h"
 
 using namespace std;
@@ -26,6 +27,7 @@ class Notification  : public Msnp {
 	protected:
 		string getUsername();
 		string getPassword();
+		void connect(string host, int port);
 /*
 	protected function connect($host, $port) {		
 		if ($this->_username == null || $this->_password == null) {
@@ -43,22 +45,20 @@ class Notification  : public Msnp {
 	public:
 	Notification(void);
 	
-	//virtual string getProtocolVersion(void);
+	virtual string getProtocolVersion(void){};
+
+	virtual string getLocale(){};
 	
-	/*
-	virtual string getLocale();
+	virtual string getOSType(){};
+	virtual string getOSVersion(){};	
+	virtual string getArch(){};
+
+	virtual string getClientName(){};	
+	virtual string getClientVersion(){};
+	virtual string getClientId(){};
 	
-	virtual string getOSType();
-	virtual string getOSVersion();	
-	virtual string getArch();
-	
-	virtual string getClientName();	
-	virtual string getClientVersion();
-	virtual string getClientId();
-	
-	virtual string getIdCode();
-	virtual string getCode();
-	*/
+	virtual string getIdCode(){};
+	virtual string getCode(){};
 	
 /*
 	public function setAuthenticationHandle($authenticationHandle) {
@@ -69,17 +69,30 @@ class Notification  : public Msnp {
 	void login(string username,  string password);
 	void logout();
 	
-	string ver(){
-		string ver = "VER ";// "X";
-		//ver = ver + this->_trid;
-		cout << this->_trid;
-		ver = ver + " CVR0" + this->EL;
-		cout << ver;
-		//return "VER "; //this->_trid+;
+	string ver(void){
+		char trid[256];
+		snprintf(trid,sizeof(trid), "%i", this->_trid);
+		string ver = "VER ";
+		ver = ver + trid + " " + this->getProtocolVersion() + " CVR0" + this->EL;
 		return ver;
 	}
-	
-	string crv(){
+
+		
+	string cvr(void){
+		char trid[256];
+		snprintf(trid,sizeof(trid), "%i", this->_trid);
+		string cvr = "CVR ";
+		cvr  = cvr + trid + " "+ this->getLocale() + " " + this->getOSType() + " ";
+		cvr  = cvr + this->getOSVersion() + " " + this->getArch() + " ";
+		cvr  = cvr + this->getClientName() + " " + this->getClientVersion() + " " + this->getClientId();
+		cvr  = cvr + " " + this->getUsername() + this->EL;
+
+
+//return "CVR " . $this->_trid . " " . $this->getLocale() . " " . $this->getOSType() . " " . $this->getOSVersion() . " " .
+ //93                 $this->getArch() . " " . $this->getClientName() . " " . $this->getClientVersion() . " " . $this->getClientId() . " " .
+ //94                 $this->getUsername() . $this->EL;
+
+		return cvr;
 	}
 /*
 	function ver() {
@@ -91,7 +104,15 @@ class Notification  : public Msnp {
 		$this->getArch() . " " . $this->getClientName() . " " .	$this->getClientVersion() . " " . $this->getClientId() . " " .
 		$this->getUsername() . $this->EL;
 	}
-
+*/
+	string usr(){
+		char trid[256];
+		snprintf(trid,sizeof(trid), "%i", this->_trid);
+		string usr = "USR ";
+		usr = usr + trid + " TWN I " + this->username + this->EL;
+		return usr;
+	}
+/*
 	function usr() {
 		if ($this->_passport == null) {
 			return "USR " . $this->_trid . " TWN I " . $this->_username . $this->EL;
