@@ -33,8 +33,7 @@ class MockConnection : implements ConnectionHandle {
 	}
 
 	virtual void send(string cmd){
-		cout << cmd;
-		
+		this->sended = cmd;
 	}
 	
 	void receive(string cmd){
